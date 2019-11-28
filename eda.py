@@ -3,19 +3,25 @@
 """
 @author: antoinepetit
 """
+# -----------------------------------------------------------------------------
+#                               IMPORTING
+# -----------------------------------------------------------------------------
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 import numpy as np
 
-# Load data
 df = pd.read_csv('Data/train.csv')
 df_labels = pd.read_csv('Data/train_labels.csv')
 print(len(df_labels['installation_id'].unique().tolist()))
 #df_specs = pd.read_csv('Data/specs.csv')
 #df_test = pd.read_csv('Data/test.csv')
 df.head(10)
+
+# -----------------------------------------------------------------------------
+#                               PREPROCESSING
+# -----------------------------------------------------------------------------
 
 # identify the installation_id that took at least one assessment 
 # (some may have not submitted an answer for it)
@@ -39,6 +45,10 @@ assessments = train[(train['type']=='Assessment') &
                     |(train['event_code']==4100) & (train['title']!='Bird Measurer (Assessment)'))]
 
 assessments['Success'] = assessments['event_data'].apply(lambda x: json.loads(x)['correct'])
+
+# -----------------------------------------------------------------------------
+#                               PLOTTING
+# -----------------------------------------------------------------------------
 
 # Plot number of users taking assessmentss
 fig0 = plt.figure(0)
